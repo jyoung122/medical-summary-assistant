@@ -1,0 +1,77 @@
+{
+  "project": {
+    "name": "Medical Summary Assistant",
+    "description": "Electron-based AI assistant that summarizes clinical documents and voice dictations into structured YAML-based reports using a local LLM runtime and LangGraph orchestration.",
+    "version": "1.1.0",
+    "visibility": "private",
+    "language": ["python", "javascript"],
+    "frameworks": ["electron", "prompt-kit", "shadcn", "fastapi", "langgraph"],
+    "entrypoints": {
+      "frontend": "app/main.js",
+      "backend": "backend/app.py"
+    },
+    "defaultRuntime": {
+      "type": "ollama",
+      "model": "gemma:2b",
+      "endpoint": "http://localhost:11434"
+    }
+  },
+  "agents": [
+    {
+      "id": "ner-agent",
+      "path": "backend/ner_service.py",
+      "language": "python",
+      "purpose": "Performs Named Entity Recognition and section extraction from medical text using spaCy/scispaCy."
+    },
+    {
+      "id": "template-agent",
+      "path": "backend/template_service.py",
+      "language": "python",
+      "purpose": "Loads, validates, and manages YAML templates for different summary types."
+    },
+    {
+      "id": "summarizer-agent",
+      "path": "backend/summarizer.py",
+      "language": "python",
+      "purpose": "Coordinates NER, template, and LLM steps via LangGraph nodes for structured summarization."
+    },
+    {
+      "id": "graph-agent",
+      "path": "backend/graph_flow.py",
+      "language": "python",
+      "purpose": "Defines LangGraph workflow connecting NER, template loading, and summarization into a dynamic graph pipeline."
+    },
+    {
+      "id": "ui-agent",
+      "path": "app/renderer/components/ChatInterface.jsx",
+      "language": "javascript",
+      "purpose": "Provides the main chat interface with PromptKit and a summary sidebar using ShadCN tabs."
+    }
+  ],
+  "dependencies": {
+    "python": [
+      "fastapi",
+      "pydantic",
+      "pyyaml",
+      "spacy",
+      "scispacy",
+      "langgraph",
+      "langchain-core"
+    ],
+    "javascript": [
+      "electron",
+      "react",
+      "prompt-kit",
+      "shadcn-ui",
+      "tailwindcss"
+    ]
+  },
+  "codex": {
+    "indexing": {
+      "include": ["backend/**/*.py", "app/**/*.jsx", "docs/*.md"],
+      "exclude": ["node_modules", "__pycache__"]
+    },
+    "agentsEnabled": true,
+    "allowLLMLocalRuntime": true
+  }
+}
