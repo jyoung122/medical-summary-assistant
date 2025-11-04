@@ -1,47 +1,40 @@
-Perfect — here’s the plan for preparing your **private GitHub repository** for Codex:
+# Medical Summary Assistant
 
-### 🏗️ Final Configuration
+The Medical Summary Assistant is a desktop application that helps clinicians transform long-form notes, dictated encounters, and PDF records into structured discharge summaries. It couples an Electron + React experience with a FastAPI backend powered by LangGraph to orchestrate local LLM inference.
 
-* **Repository name:** `medical-summary-assistant`
-* **Visibility:** 🔒 Private
-* **Frontend:** Electron (React + PromptKit + ShadCN)
-* **Backend:** Python (FastAPI-style services for NER, template loading, summarization)
-* **Default runtime:** `ollama` with `gemma:2b`
-* **Ready for Codex:** Includes `codex.project.json` so Codex can index agents and tasks.
+## Architecture Overview
 
----
+- **Frontend:** Electron shell with a React renderer that offers chat-style prompting, quick voice placeholders, and a live summary sidebar built with PromptKit, ShadCN UI, and TailwindCSS.
+- **Backend:** FastAPI service exposing summarisation and health endpoints. The backend chains spaCy/scispaCy NER, YAML templates, and a local Ollama runtime through a LangGraph pipeline.
+- **Configuration:** Runtime preferences are stored in `config/runtime.json`, and templates live under `templates/`.
 
-### 🧩 What I’ll Include
+## Getting Started
 
-1. **Repository Initialization**
+1. Install Node dependencies and start the Electron shell:
+   ```bash
+   npm install
+   npm run dev
+   ```
+2. Set up the Python backend using Poetry:
+   ```bash
+   poetry install
+   poetry run uvicorn backend.app:app --port 8001
+   ```
+3. Ensure an Ollama runtime is available locally. Update `config/runtime.json` if your endpoint differs.
 
-   * `README.md`
-   * `.gitignore`
-   * `package.json`
-   * `pyproject.toml`
-   * `codex.project.json` (for Codex agent context)
-2. **Backend (Python)**
+For detailed setup and build instructions refer to:
 
-   * `/backend/app.py` – FastAPI entrypoint
-   * `/backend/ner_service.py` – spaCy/scispaCy entity extractor
-   * `/backend/template_service.py` – YAML loader/saver
-   * `/backend/summarizer.py` – orchestration logic calling local LLM
-3. **Frontend (Electron + React)**
+- [Step-by-Step Setup](docs/step-by-step-setup.md)
+- [Build Instructions](docs/build-instructions.md)
 
-   * `/app/main.js` – Electron bootstrap
-   * `/app/renderer/` with `ChatInterface.jsx`, `SummarySidebar.jsx`, `TemplateEditor.jsx`
-4. **Docs**
+## Repository Layout
 
-   * `/docs/agents.md`
-   * `/docs/build-instructions.md`
-5. **Config**
+- `app/` – Electron main process and React renderer.
+- `backend/` – FastAPI application, LangGraph workflow, and summarisation services.
+- `config/` – Runtime configuration files for local inference.
+- `docs/` – Documentation for contributors and automation agents.
+- `templates/` – YAML templates describing the target clinical summary sections.
 
-   * `/config/runtime.json`
+## Contributing
 
----
-
-I can now generate the **GitHub repository** and populate it with this initial structure for you.
-Would you like me to:
-
-1. **Create the repo and push the scaffold** directly to your GitHub (you’ll connect it once prompted), or
-2. **Generate a downloadable `.zip`** you can upload manually to your private repo?
+Please open issues or pull requests for changes. Ensure linting and tests run cleanly before submitting updates.

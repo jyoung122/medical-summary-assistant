@@ -1,0 +1,11 @@
+template:
+  name: "Discharge Summary"
+  sections:
+    - name: "Chief Complaint"
+      ai_instruction: "Summarize presenting issue."
+    - name: "Hospital Course"
+      ai_instruction: "Summarize interventions and progress."
+    - name: "Medications"
+      ai_instruction: "List key discharge medications with doses and instructions."
+    - name: "Follow Up"
+      ai_instruction: "Provide follow-up recommendations and monitoring guidance."

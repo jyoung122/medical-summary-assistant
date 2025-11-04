@@ -1,0 +1,5 @@
+{
+  "runtime": "ollama",
+  "model": "gemma:2b",
+  "endpoint": "http://localhost:11434"
+}
